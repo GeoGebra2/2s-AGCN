@@ -126,7 +126,7 @@ def gendata(data_path, out_path, ignored_sample_path=None, benchmark='xview', pa
 
         if issample:
             sample_name.append(filename)
-            sample_label.append(action_class - 1)
+            sample_label.append(subject_id - 1)
 
     with open('{}/{}_label.pkl'.format(out_path, part), 'wb') as f:
         pickle.dump((sample_name, list(sample_label)), f)
