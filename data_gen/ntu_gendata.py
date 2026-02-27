@@ -1,9 +1,12 @@
 import argparse
+import os
 import pickle
-from tqdm import tqdm
 import sys
+from tqdm import tqdm
 
-sys.path.extend(['../'])
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
 from data_gen.preprocess import pre_normalization
 
 training_subjects = [
@@ -16,7 +19,6 @@ num_joint = 25
 max_frame = 300
 
 import numpy as np
-import os
 
 
 def read_skeleton_filter(file):
