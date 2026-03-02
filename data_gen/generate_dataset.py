@@ -15,11 +15,11 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 from data_gen.preprocess import pre_normalization
 
-DET_CONFIG = '../checkpoints/rtmdet_tiny_8xb32-300e_coco.py'
-DET_CHECKPOINT = '../checkpoints/rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth'
+DET_CONFIG = './checkpoints/rtmdet_tiny_8xb32-300e_coco.py'
+DET_CHECKPOINT = './checkpoints/rtmdet_tiny_8xb32-300e_coco_20220902_112414-78e30dcc.pth'
 
-POSE_CONFIG = '../checkpoints/rtmpose-m_8xb256-420e_coco-256x192.py'
-POSE_CHECKPOINT = '../checkpoints/rtmpose-m_simcc-coco_pt-aic-coco_420e-256x192-d8dd5ca4_20230127.pth'
+POSE_CONFIG = './checkpoints/rtmpose-m_8xb256-420e_coco-256x192.py'
+POSE_CHECKPOINT = './checkpoints/rtmpose-m_simcc-coco_pt-aic-coco_420e-256x192-d8dd5ca4_20230127.pth'
 
 training_subjects = [
     1, 2, 4, 5, 8, 9, 13, 14, 15, 16, 17, 18, 19, 25, 27, 28, 31, 34, 35, 38
