@@ -75,3 +75,6 @@ Please cite the following paper if you use this repository in your reseach.
 	}
 # Contact
 For any questions, feel free to contact: `lei.shi@nlpr.ia.ac.cn`
+
+设置tensorboard export WANDB_DISABLED=true
+使用单卡 export CUDA_VISIBLE_DEVICES=1,2,3 然后--device 0

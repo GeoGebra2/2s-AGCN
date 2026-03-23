@@ -381,10 +381,17 @@ class Processor():
             # get data
             data = Variable(data.float().cuda(self.output_device), requires_grad=False)
             label = Variable(label.long().cuda(self.output_device), requires_grad=False)
+            if not torch.isfinite(data).all():
+                mask = torch.isfinite(data)
+                data = torch.where(mask, data, torch.zeros_like(data))
             timer['dataloader'] += self.split_time()
 
             # forward
             output = self.model(data)
+            if not torch.isfinite(output).all():
+                self.print_log('NaN or Inf found in model output. Skip batch.')
+                timer['model'] += self.split_time()
+                continue
             # if batch_idx == 0 and epoch == 0:
             #     self.train_writer.add_graph(self.model, output)
             if isinstance(output, tuple):
@@ -393,10 +400,15 @@ class Processor():
             else:
                 l1 = 0
             loss = self.loss(output, label) + l1
+            if not torch.isfinite(loss):
+                self.print_log('Non-finite loss encountered. Skip batch.')
+                timer['model'] += self.split_time()
+                continue
 
             # backward
             self.optimizer.zero_grad()
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
             self.optimizer.step()
             loss_value.append(loss.data.item())
             timer['model'] += self.split_time()
@@ -461,6 +473,9 @@ class Processor():
                         requires_grad=False,
                         volatile=True)
                     output = self.model(data)
+                    if not torch.isfinite(output).all():
+                        self.print_log('NaN or Inf found in model output during eval. Skip batch.')
+                        continue
                     if isinstance(output, tuple):
                         output, l1 = output
                         l1 = l1.mean()

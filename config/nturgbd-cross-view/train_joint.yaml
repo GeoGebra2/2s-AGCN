@@ -30,6 +30,7 @@ model_args:
 weight_decay: 0.0001
 base_lr: 0.1
 step: [30, 40]
+warm_up_epoch: 5
 
 # training
 device: [0, 1 ,2, 3]
